@@ -12,7 +12,7 @@ var (
 	maxNonce = math.MaxInt64
 )
 
-const targetBits = 20
+const targetBits = 19
 
 //create struct for
 
@@ -46,18 +46,18 @@ func (pow *ProofOfWork) prepareData(nonce int) []byte {
 	return data
 }
 func (pow *ProofOfWork) Run() (int, []byte) {
-	var HashInt big.Int
+	var hashInt big.Int
 	var hash [32]byte
 	nonce := 0
 
 	fmt.Printf("Mining the block containing\"%s\"\n", pow.block.Data)
 	for nonce < maxNonce {
 		data := pow.prepareData(nonce)
-		hash := sha256.Sum256(data)
+		hash = sha256.Sum256(data)
 		fmt.Printf("\r%x", hash)
-		HashInt.SetBytes(hash[:])
+		hashInt.SetBytes(hash[:])
 
-		if HashInt.Cmp(pow.target) == -1 {
+		if hashInt.Cmp(pow.target) == -1 {
 			break
 		} else {
 			nonce++
